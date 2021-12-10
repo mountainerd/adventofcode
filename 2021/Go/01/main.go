@@ -15,13 +15,13 @@ func main() {
 		os.Exit(1)
 	}
 
-	defer func(file *os.File) {
-		err := file.Close()
+	defer func() {
+		err := inputFile.Close()
 		if err != nil {
-			fmt.Printf("close already called: %s\n", err.Error())
+			fmt.Printf("closing did not go according to plan: %s\n", err.Error())
 			os.Exit(1)
 		}
-	}(inputFile)
+	}()
 
 	readings, err := convertStringsToIntegers(inputFile)
 	if err != nil {
