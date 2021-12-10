@@ -9,35 +9,65 @@ import (
 )
 
 func main() {
-	file, err := os.Open("sample.txt")
+	inputFile, err := os.Open("input.txt")
 	if err != nil {
-		errors.New(err.Error())
+		fmt.Printf("unable to open inputFile: %s\n", err.Error())
+		os.Exit(1)
 	}
-	defer file.Close()
 
+	defer func(file *os.File) {
+		err := file.Close()
+		if err != nil {
+			fmt.Printf("close already called: %s\n", err.Error())
+			os.Exit(1)
+		}
+	}(inputFile)
+
+	readings, err := convertStringsToIntegers(inputFile)
+	if err != nil {
+		fmt.Printf("unable to complete conversion:\n\t%s\n", err.Error())
+		os.Exit(1)
+	}
+
+	fmt.Printf("total count: %d\n", depthCounter(readings))
+}
+
+func convertStringsToIntegers(f *os.File) (*[]int, error) {
 	var measurements []int
 
-	scanner := bufio.NewScanner(file)
+	scanner := bufio.NewScanner(f)
 	for scanner.Scan() {
-		i, _ := strconv.Atoi(scanner.Text())
+		i, err := strconv.Atoi(scanner.Text())
+		if err != nil {
+			return nil, errors.New(err.Error())
+		}
 		measurements = append(measurements, i)
 	}
 
-	for _, measurement := range measurements {
-		fmt.Println(isDeeper(measurement))
-	}
+	return &measurements, nil
 }
 
-func isDeeper(depth int) func() int {
-	return func() int {
-		//lastMeasurement, isLarger := 0, 0
-		//
-		//if depth > lastMeasurement {
-		//	isLarger += 1
-		//}
-		//
-		//lastMeasurement = depth
-		//return isLarger - 1
-		return depth
+func depthCounter(depthList *[]int) int {
+	var depthCount int
+
+	depthChecker := isDeeper()
+
+	for _, depth := range *depthList {
+		depthCount = depthChecker(depth)
+	}
+
+	return depthCount
+}
+
+func isDeeper() func(depth int) int {
+	lastMeasurement, isLarger := 0, 0
+
+	return func(depth int) int {
+		if depth > lastMeasurement {
+			isLarger += 1
+		}
+
+		lastMeasurement = depth
+		return isLarger - 1
 	}
 }
