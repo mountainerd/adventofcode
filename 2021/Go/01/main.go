@@ -29,7 +29,22 @@ func main() {
 		os.Exit(1)
 	}
 
-	fmt.Printf("total count: %d\n", depthCounter(readings))
+	windowReadings, err := windowTotals(readings)
+	if err != nil {
+		fmt.Printf("unable to complete conversion:\n\t%s\n", err.Error())
+	}
+
+	fmt.Printf("total count: %d\n", depthCounter(windowReadings))
+}
+
+func adder(numbers []int) int {
+	sum := 0
+
+	for _, v := range numbers {
+		sum += v
+	}
+
+	return sum
 }
 
 func convertStringsToIntegers(f *os.File) (*[]int, error) {
@@ -70,4 +85,14 @@ func isDeeper() func(depth int) int {
 		lastMeasurement = depth
 		return isLarger - 1
 	}
+}
+
+func windowTotals(measurements *[]int) (*[]int, error) {
+	var windowMeasurements []int
+
+	for i := 3; i <= len(*measurements); i++ {
+		windowMeasurements = append(windowMeasurements, adder((*measurements)[i-3:i]))
+	}
+
+	return &windowMeasurements, nil
 }
