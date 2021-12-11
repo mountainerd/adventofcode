@@ -8,4 +8,5 @@ other languages as I work to learn them better. Sometimes I will intentionally u
 typically do not use in day-to-day just to get a feel for it (I'm looking at you Go + Closures).
 
 ## 2021 Cycle
-- Completed: [Day 1](https://github.com/mountainerd/adventofcode/tree/main/2021/Go/01)
+- [1 - Depth Measurements](https://github.com/mountainerd/adventofcode/tree/main/2021/Go/01)
+- [2 - Incorporating Aim into Depth Measurements](https://github.com/mountainerd/adventofcode/tree/main/2021/Go/02)
