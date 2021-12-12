@@ -10,3 +10,4 @@ typically do not use in day-to-day just to get a feel for it (I'm looking at you
 ## 2021 Cycle
 - [1 - Depth Measurements](https://github.com/mountainerd/adventofcode/tree/main/2021/Go/01)
 - [2 - Incorporating Aim into Depth Measurements](https://github.com/mountainerd/adventofcode/tree/main/2021/Go/02)
+- [3 - Diagnostics & Life Support](https://github.com/mountainerd/adventofcode/tree/main/2021/Go/03)
